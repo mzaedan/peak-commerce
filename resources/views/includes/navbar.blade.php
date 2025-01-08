@@ -3,7 +3,7 @@
       data-aos="fade-down"
     >
       <div class="container">
-        <a href="#" class="navbar-brand">
+        <a href="{{ route('home') }}" class="navbar-brand">
           <img src="{{ url('images/logo-peak.png') }}" style="width: 90px" alt="" />
         </a>
         <button
@@ -25,7 +25,7 @@
             <li class="nav-item">
               <a href="#" class="nav-link">Rewards</a>
             </li>
-            
+            @guest
               <li class="nav-item">
                 <a href="{{ route('register') }}" class="nav-link">Sign Up</a>
               </li>
@@ -36,10 +36,10 @@
                   >Sign In</a
                 >
               </li>
-            
+            @endguest
           </ul>
 
-          
+          @auth
             <!-- Desktop Menu -->
             <ul class="navbar-nav d-none d-lg-flex">
               <li class="nav-item dropdown">
@@ -55,25 +55,25 @@
                     alt=""
                     class="rounded-circle mr-2 profile-picture"
                   />
-                  Hi, Zaedan
+                  Hi, {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu">
-                  <a href="#" class="dropdown-item">Dashboard</a>
-                  <a href="#" class="dropdown-item"
+                  <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                  <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item"
                     >Settings</a
                   >
                   <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"
+                    <a class="dropdown-item" href="{{ route('logout') }}"
                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                       Logout
                     </a>
-                    <form id="logout-form" action="#" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       @csrf
                     </form>
                 </div>
               </li>
-              {{-- <li class="nav-item">
-                <a href="#" class="nav-link d-inline-block mt-2">
+              <li class="nav-item">
+                <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
                   @php
                     $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
                   @endphp
@@ -84,17 +84,18 @@
                     <img src="{{ url('images/icon-cart-empty.svg') }}" alt="" />
                   @endif
                 </a>
-              </li> --}}
+              </li>
             </ul>
             <!-- Mobile Menu -->
             <ul class="navbar-nav d-block d-lg-none">
               <li class="nav-item">
-                <a href="#" class="nav-link d-inline-block">Hi, Zaedan</a>
+                <a href="{{ route('dashboard') }}" class="nav-link d-inline-block">Hi, {{ Auth::user()->name }}</a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link d-inline-block">Cart</a>
+                <a href="{{ route('cart') }}" class="nav-link d-inline-block">Cart</a>
               </li>
             </ul>
+          @endauth
         </div>
       </div>
     </nav>

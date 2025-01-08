@@ -4,7 +4,7 @@
     >
       <div class="container">
         <a href="/index.html" class="navbar-brand">
-          <img src="{{ url('"images/logo.svg') }}" alt="" />
+          <img src="{{ url('"images/logo-peak.svg') }}" alt="" />
         </a>
         <button
           class="navbar-toggler"
