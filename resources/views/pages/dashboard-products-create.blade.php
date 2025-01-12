@@ -24,9 +24,9 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="#" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard-product-store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="users_id" value="#">
+                        <input type="hidden" name="users_id" value="{{ Auth::user()->id }}">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -46,9 +46,9 @@
                                         <div class="form-group" v-if="is_store_open">
                                             <label>Kategori</label>
                                             <select name="categories_id" class="form-control">
-                                               <option value="" disabled>
-                                                    Select Category
-                                                </option>
+                                               @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                               @endforeach
                                             </select>
                                         </div>
                                     </div>

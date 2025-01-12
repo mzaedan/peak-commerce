@@ -27,31 +27,31 @@
         <div class="list-group list-group-flush">
           <a
             href="{{ route('dashboard') }}"
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action {{ (request()->is('dashboard')) ? 'active' : '' }}"
           >
             Dashboard
           </a>
           <a
             href="{{ route('dashboard-product') }}"
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action {{ (request()->is('dashboard/products*')) ? 'active' : '' }}"
           >
             My Product
           </a>
           <a
-            href=""
-            class="list-group-item list-group-item-action"
+            href="{{ route('dashboard-transaction') }}"
+            class="list-group-item list-group-item-action {{ (request()->is('dashboard/transaction*')) ? 'active' : '' }}"
           >
             Transaction
           </a>
           <a
-            href=""
-            class="list-group-item list-group-item-action"
+            href="{{ route('dashboard-settings-store') }}"
+            class="list-group-item list-group-item-action {{ (request()->is('dashboard/settings*')) ? 'active' : '' }}"
           >
             Store Settings
           </a>
           <a
-            href=""
-            class="list-group-item list-group-item-action"
+            href="{{ route('dashboard-settings-account') }}"
+            class="list-group-item list-group-item-action {{ (request()->is('dashboard/account*')) ? 'active' : '' }}"
           >
             My Account
           </a>
@@ -99,11 +99,11 @@
                       alt=""
                       class="rounded-circle mr-2 profile-picture"
                     />
-                    Hi, Zaedan
+                    Hi, {{ Auth::user()->name }}
                   </a>
                   <div class="dropdown-menu">
                     <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
-                    <a href="#" class="dropdown-item"
+                    <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item"
                       >Settings</a
                     >
                     <div class="dropdown-divider"></div>
@@ -118,20 +118,22 @@
                 </li>
                 <li class="nav-item">
                   <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
-                   
-                    
+                    @php
+                      $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
+                    @endphp
+                    @if ($carts > 0)
                       <img src="{{ url('images/icon-cart-filled.svg') }}" alt="" />
-                      <div class="card-badge">4</div>
-                   
+                      <div class="card-badge">{{ $carts }}</div>
+                    @else
                       <img src="{{ url('images/icon-cart-empty.svg') }}" alt="" />
-                    
+                    @endif
                   </a>
                 </li>
               </ul>
               <!-- Mobile Menu -->
               <ul class="navbar-nav d-block d-lg-none">
                 <li class="nav-item">
-                  <a href="{{ route('dashboard') }}" class="nav-link d-inline-block">Hi, Zaedan</a>
+                  <a href="{{ route('dashboard') }}" class="nav-link d-inline-block">Hi, {{ Auth::user()->name }}</a>
                 </li>
                 <li class="nav-item">
                   <a href="{{ route('cart') }}" class="nav-link d-inline-block">Cart</a>
