@@ -24,7 +24,8 @@ class UserRequest extends FormRequest
        return [
             'name' => 'required|string|max:50',
             'email' => 'required|email|unique:users',
-            'roles' => 'nullable|string|in:ADMIN,USER'
+            'roles' => 'nullable|string|in:ADMIN,USER',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

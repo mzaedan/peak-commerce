@@ -33,6 +33,8 @@ class DashboardSettingController extends Controller
         $data = $request->all();
         $item = Auth::user();
 
+        $data['profile_picture'] = $request->file('profile_picture')->store('assets/profile_picture', 'public');
+
         $item->update($data);
 
         return redirect()->route($redirect);

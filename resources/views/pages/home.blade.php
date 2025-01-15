@@ -119,7 +119,7 @@
           </div>
         @empty
           <div class="col-12 text-center py-5" data-aos="fade-up" data-aos-delay="100">
-              No Categories Found
+              No Products Found
           </div>
         @endforelse
       </div>
