@@ -61,8 +61,8 @@
                         <div class="product-subtitle">By {{ $cart->product->user->store_name }}</div>
                       </td>
                       <td style="width: 35%">
-                        <div class="product-title">${{ number_format($cart->product->price) }}</div>
-                        <div class="product-subtitle">USD</div>
+                        <div class="product-title">Rp.{{ number_format($cart->product->price) }}</div>
+                        <div class="product-subtitle">Rupiah</div>
                       </td>
                       <td style="width: 20%">
                         <form action="{{ route('cart-delete', $cart->id) }}" method="POST">
@@ -95,7 +95,7 @@
             <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="address_one">Address 1</label>
+                <label for="address_one">Alamat</label>
                 <input
                   type="text"
                   class="form-control"
@@ -106,18 +106,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="address_two">Address 2</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="address_two"
-                  name="address_two"
-                />
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="provinces_id">Province</label>
+                <label for="provinces_id">Provinsi</label>
                 <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
                   <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                 </select>
@@ -126,7 +115,7 @@
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                <label for="regencies_id">City</label>
+                <label for="regencies_id">Kabupaten/Kota</label>
                 <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
                   <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
                 </select>
@@ -135,7 +124,16 @@
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                <label for="zipcode">Postal Code</label>
+                <label for="districts_id">Kecamatan</label>
+                  <select name="districts_id" id="districts_id" class="form-control" v-if="districts" v-model="districts_id">
+                    <option v-for="district in districts" :value="district.id">@{{ district.name }}</option>
+                  </select>
+                  <select v-else class="form-control"></select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="zipcode">Kode Pos</label>
                 <input
                   type="text"
                   class="form-control"
@@ -191,7 +189,7 @@
               <div class="product-subtitle">Ship to Jakarta</div>
             </div>
             <div class="col-4 col-md-2">
-              <div class="product-title text-success">{{ number_format($totalPrice ?? 0) }}</div>
+              <div class="product-title text-success">Rp.{{ number_format($totalPrice ?? 0) }}</div>
               <div class="product-subtitle">Total</div>
             </div>
             <div class="col-8 col-md-3">
@@ -210,18 +208,28 @@
 
 <script src="{{ url('/vendor/vue/vue.js') }}"></script>
 <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+<script>
+  var provincesId = @json($user->provinces_id ?? null);
+  var regenciesId = @json($user->regencies_id ?? null);
+  var districtsId = @json($user->districts_id ?? null);
+</script>
+
   <script>
     var locations = new Vue({
       el: "#locations",
       mounted() {
         AOS.init();
         this.getProvincesData();
+        this.getRegenciesData();
+        this.getDistrictsData();
       },
       data: {
         provinces: null,
         regencies: null,
-        provinces_id : null,
-        regencies_id : null,
+        districts: null,
+        provinces_id : provincesId,
+        regencies_id : regenciesId,
+        districts_id: districtsId,
       },
       methods:{
         getProvincesData() {
@@ -229,8 +237,7 @@
           axios.get('{{ route('api-provinces') }}')
             .then(function(response){
               self.provinces = response.data;
-            })  
-
+            })
         },
         getRegenciesData(){
           var self = this;
@@ -238,12 +245,23 @@
             .then(function(response){
               self.regencies = response.data;
             })
+        },
+        getDistrictsData(){
+          var self = this;
+          axios.get('{{ url('api/districts') }}/' + self.regencies_id)
+            .then(function(response){
+              self.districts = response.data;
+            });
         }
       },
       watch: {
         provinces_id: function(val, oldVal) {
           this.regencies_id = null;
           this.getRegenciesData();
+        },
+        regencies_id: function(val, oldVal) {
+          this.districts_id = null;
+          this.getDistrictsData();
         }
       }
     }); 

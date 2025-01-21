@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-md-4">{{ $transaction->product->name ?? '' }}</div>
                                 <div class="col-md-3">{{ $transaction->user->name ?? '' }}</div>
-                                <div class="col-md-3">{{ $transaction->created_at ?? '' }}</div>
+                                <div class="col-md-3">{{ \Carbon\Carbon::parse($transaction->created_at)->format('j F, Y H:i') ?? '' }}</div>
                                 <div class="col-md-1 d-none d-md-block">
                                     <img src="images/dashboard-arrow-right.svg" alt="" />
                                 </div>
