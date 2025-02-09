@@ -51,10 +51,11 @@
                   data-toggle="dropdown"
                 >
                   <img
-                    src="{{ url('images/icon-user.png') }}"
-                    alt=""
+                    src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('images/user-icon.jpg') }}"
+                    alt="User Profile"
                     class="rounded-circle mr-2 profile-picture"
                   />
+
                   Hi, {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu">

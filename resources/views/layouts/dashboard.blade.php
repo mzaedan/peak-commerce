@@ -22,7 +22,7 @@
       <!-- Sidebar -->
       <div class="border-right" id="sidebar-wrapper">
         <div class="sidebar-heading text-center">
-          <img src="{{ url('/images/dahsboard-store-logo.svg') }}" alt="" class="my-4" />
+          <img src="{{ url('/images/admin-dashboard.png') }}" alt="" class="my-4" width="150px" />
         </div>
         <div class="list-group list-group-flush">
           <a
@@ -95,8 +95,8 @@
                     data-toggle="dropdown"
                   >
                     <img
-                      src="{{ url('images/icon-user.png') }}"
-                      alt=""
+                      src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('images/user-icon.jpg') }}"
+                      alt="User Profile"
                       class="rounded-circle mr-2 profile-picture"
                     />
                     Hi, {{ Auth::user()->name }}
