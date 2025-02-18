@@ -142,7 +142,7 @@
                 />
               </div>
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
               <div class="form-group">
                 <label for="country">Country</label>
                 <input
@@ -153,7 +153,7 @@
                   value="Indonesia"
                 />
               </div>
-            </div>
+            </div> --}}
             <div class="col-md-6">
               <div class="form-group">
                 <label for="phone_number">Mobile</label>
@@ -177,15 +177,15 @@
 
           <div class="row" data-aos="fade-up" data-aos-delay="200">
             <div class="col-4 col-md-2">
-              <div class="product-title">$0</div>
+              <div class="product-title">Rp0</div>
               <div class="product-subtitle">Country Tax</div>
             </div>
             <div class="col-4 col-md-2">
-              <div class="product-title">$0</div>
+              <div class="product-title">Rp0</div>
               <div class="product-subtitle">Product Insurance</div>
             </div>
             <div class="col-4 col-md-2">
-              <div class="product-title">$0</div>
+              <div class="product-title">Rp0</div>
               <div class="product-subtitle">Ship to Jakarta</div>
             </div>
             <div class="col-4 col-md-2">

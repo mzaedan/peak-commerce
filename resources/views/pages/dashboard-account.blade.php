@@ -67,7 +67,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="provinces_id">Province</label>
+                      <label for="provinces_id">Provinsi</label>
                       <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
                         <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                       </select>
@@ -76,7 +76,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <label for="regencies_id">City</label>
+                      <label for="regencies_id">Kabupaten/Kota</label>
                       <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
                         <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
                       </select>
@@ -104,7 +104,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  {{-- <div class="col-md-6">
                     <div class="form-group">
                       <label for="country">Country</label>
                       <input
@@ -115,10 +115,10 @@
                         value="{{ $user->country }}"
                       />
                     </div>
-                  </div>
+                  </div> --}}
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="phone_number">Mobile</label>
+                      <label for="phone_number">No.Handphone</label>
                       <input
                         type="text"
                         class="form-control"
