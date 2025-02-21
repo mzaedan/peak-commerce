@@ -156,7 +156,7 @@
             </div> --}}
             <div class="col-md-6">
               <div class="form-group">
-                <label for="phone_number">Mobile</label>
+                <label for="phone_number">No. Handphone</label>
                 <input
                   type="text"
                   class="form-control"
