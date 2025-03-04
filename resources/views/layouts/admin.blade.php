@@ -51,7 +51,7 @@
             Categories
           </a>
           <a
-            href="/dashboard-settings.html"
+            href="{{ route('transaction.index') }}"
             class="list-group-item list-group-item-action"
           >
             Transactions

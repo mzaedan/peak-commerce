@@ -186,7 +186,7 @@
             </div>
             <div class="col-4 col-md-2">
               <div class="product-title">Rp0</div>
-              <div class="product-subtitle">Ship to Jakarta</div>
+              <div class="product-subtitle">Ongkir Ditanggung Pembeli</div>
             </div>
             <div class="col-4 col-md-2">
               <div class="product-title text-success">Rp.{{ number_format($totalPrice ?? 0) }}</div>
