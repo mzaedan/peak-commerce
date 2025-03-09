@@ -40,7 +40,7 @@
                                                 <option value="" disabled>------</option>
                                                 <option value="PENDING">PENDING</option>
                                                 <option value="SHIPPING">SHIPPING</option>
-                                                <option value="SUCCESS">SUCESS</option>
+                                                <option value="SUCCESS">SUCCESS</option>
                                             </select>
                                         </div>
                                     </div>
