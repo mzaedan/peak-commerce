@@ -122,13 +122,13 @@ class CheckoutController extends Controller
             // Logika untuk QR Code/GoPay di Sandbox
             if ($status === 'settlement') {
                 // Pembayaran berhasil (GoPay/QR Code di sandbox biasanya langsung settlement)
-                $transaction->$transaction->transaction_status = 'SUCCESS';
+                $transaction->transaction_status = 'SUCCESS';
             } elseif ($status === 'pending') {
                 // Menunggu pembayaran
-                $transaction->$transaction->transaction_status = 'PENDING';
+                $transaction->transaction_status = 'PENDING';
             } elseif (in_array($status, ['deny', 'expire', 'cancel'])) {
                 // Pembayaran gagal atau dibatalkan
-                $transaction->$transaction->transaction_status = 'CANCELLED';
+                $transaction->transaction_status = 'CANCELLED';
             }
 
             // Simpan perubahan transaksi
