@@ -82,7 +82,7 @@ class CheckoutController extends Controller
             ],
             'vtWeb' => [],
             'callbacks' => [
-                'finish' => route('success') // Redirect ke halaman sukses setelah transaksi berhasil
+                'finish' => route('success')
             ]
         ];
 
@@ -102,48 +102,51 @@ class CheckoutController extends Controller
     {
         Log::info('Midtrans Callback:', $request->all());
 
-        // Set Konfigurasi Midtrans
+        // Set Konfigurasi Midtrans untuk Sandbox
         Config::$serverKey = config('services.midtrans.serverKey');
-        Config::$isProduction = config('services.midtrans.isProduction');
+        Config::$isProduction = false; // Pastikan sandbox mode
         Config::$isSanitized = config('services.midtrans.isSanitized');
         Config::$is3ds = config('services.midtrans.is3ds');
 
-        // Ambil notifikasi dari Midtrans
-        $notification = new Notification();
+        try {
+            // Ambil notifikasi dari Midtrans
+            $notification = new Notification();
 
-        // Ambil informasi dari notifikasi
-        $status = $notification->transaction_status;
-        $type = $notification->payment_type;
-        $fraud = $notification->fraud_status;
-        $order_id = $notification->order_id;
+            // Ambil informasi dari notifikasi
+            $status = $notification->transaction_status;
+            $order_id = $notification->order_id;
 
-        // Cari transaksi berdasarkan order_id
-        $transaction = Transaction::where('code', $order_id)->firstOrFail();
+            // Cari transaksi berdasarkan order_id
+            $transaction = Transaction::where('code', $order_id)->firstOrFail();
 
-        // Handle status pembayaran
-        if ($status == 'capture') {
-            if ($type == 'credit_card') {
-                if ($fraud == 'challenge') {
-                    $transaction->transaction_status = 'PENDING';
-                } else {
-                    $transaction->transaction_status = 'SUCCESS';
-                }
+            // Logika untuk QR Code/GoPay di Sandbox
+            if ($status === 'settlement') {
+                // Pembayaran berhasil (GoPay/QR Code di sandbox biasanya langsung settlement)
+                $transaction->$transaction->transaction_status = 'SUCCESS';
+            } elseif ($status === 'pending') {
+                // Menunggu pembayaran
+                $transaction->$transaction->transaction_status = 'PENDING';
+            } elseif (in_array($status, ['deny', 'expire', 'cancel'])) {
+                // Pembayaran gagal atau dibatalkan
+                $transaction->$transaction->transaction_status = 'CANCELLED';
             }
-        } elseif ($status == 'settlement') {
-            $transaction->transaction_status = 'SUCCESS';
-        } elseif ($status == 'pending') {
-            $transaction->transaction_status = 'PENDING';
-        } elseif ($status == 'deny' || $status == 'expire' || $status == 'cancel') {
-            $transaction->transaction_status = 'CANCELLED';
-        }
 
-        // Simpan perubahan transaksi
-        $transaction->save();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Transaction status updated successfully',
-        ]);
-    }   
+            // Simpan perubahan transaksi
+            $transaction->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaction status updated successfully',
+                'status' => $transaction->transaction_status
+            ]);
+
+        } catch (Exception $e) {
+            Log::error('Midtrans Callback Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error processing callback: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
 }
